@@ -1,0 +1,9 @@
+.idea/misc.xml
+.idea/modules.xml
+.idea/Song_Uploader_Bot.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml
+Songs/
+/API_token
+/venv/
+/.idea/
