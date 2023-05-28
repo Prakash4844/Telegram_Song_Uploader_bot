@@ -31,3 +31,18 @@ This is a simple telegram bot I made to back up and share my song playlist throu
 - `/start` - Start the bot
 - `/unknown` - handles unknown commands
 - `/upload` - Uploads the song to the telegram group.
+
+## For Termux users:
+1. do step 1 and 2 from above.
+2. install Tinytag using
+    ````bash
+   git clone https://github.com/devsnd/tinytag
+   cd tinytag
+   sed -i 's%  pip >= 10%%g' setup.cfg
+   pip install .
+   ```
+3. install python-telegram-bot using
+    ```bash
+   pip install python-telegram-bot
+   ```
+4. do step 4 to 8 from above.
