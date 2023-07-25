@@ -19,7 +19,7 @@ logging.basicConfig(
 DB_NAME = 'SongsDB.sqlite'
 
 # Replace with your songs directory path
-SONGS_DIR = '/home/zaphkiel/Documents/Github/Python/Song_Uploader_Bot/Songs'
+SONGS_DIR = 'Songs/'
 
 # Create a database connection
 conn = sqlite3.connect(DB_NAME)
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     application.add_handler(upload_handler)
     application.add_handler(unknown_handler)
 
-    application.run_polling()
+    application.run_polling(timeout=30, connect_timeout=30, write_timeout=30)
 
 # Close the database connection
 conn.close()
