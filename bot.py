@@ -122,7 +122,8 @@ if __name__ == '__main__':
     application.add_handler(upload_handler)
     application.add_handler(unknown_handler)
 
-    application.run_polling(timeout=30, connect_timeout=30, write_timeout=30)
+    application.run_polling(timeout=1000, pool_timeout=1000, read_timeout=1000, write_timeout=1000,
+                            connect_timeout=1000)
 
 # Close the database connection
 conn.close()
