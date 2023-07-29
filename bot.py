@@ -88,8 +88,12 @@ async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 print(f'Song "{title}" already uploaded.')
             else:
                 # Upload the song to Telegram
-                await context.bot.send_document(chat_id=update.message.chat_id, document=song_path,
-                                                read_timeout=1000, write_timeout=1000, connect_timeout=1000)
+                # await context.bot.send_document(chat_id=update.message.chat_id, document=song_path,
+                #                                 read_timeout=1000, write_timeout=1000, connect_timeout=1000)
+
+                await context.bot.send_audio(chat_id=update.message.chat_id, audio=song_path, title=title,
+                                             duration=duration, performer=artist, read_timeout=1000,
+                                             write_timeout=1000, connect_timeout=1000)
 
                 await context.bot.send_message(chat_id=update.effective_chat.id,
                                                text=f'Song Title: {title} \nArtist: {artist} \nDuration: '
