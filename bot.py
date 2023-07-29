@@ -114,7 +114,8 @@ async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token(API_TOKEN).build()
+    application = ApplicationBuilder().connect_timeout(1000).read_timeout(1000).write_timeout(1000).token(
+        API_TOKEN).build()
 
     # Define the handlers
     start_handler = CommandHandler('start', start)
@@ -126,8 +127,7 @@ if __name__ == '__main__':
     application.add_handler(upload_handler)
     application.add_handler(unknown_handler)
 
-    application.run_polling(timeout=1000, pool_timeout=1000, read_timeout=1000, write_timeout=1000,
-                            connect_timeout=1000)
+    application.run_polling()
 
 # Close the database connection
 conn.close()
