@@ -34,13 +34,7 @@ This is a simple telegram bot I made to back up and share my song playlist throu
 
 ## For Termux users:
 1. do step 1 and 2 from above.
-2. install Tinytag using
-    ````bash
-   git clone https://github.com/devsnd/tinytag
-   cd tinytag
-   sed -i 's%  pip >= 10%%g' setup.cfg
-   pip install .
-   ```
+2. install Tinytag. (See. [devsnd@Tinytag#175](https://github.com/devsnd/tinytag/issues/175))
 3. install python-telegram-bot using
     ```bash
    pip install python-telegram-bot
