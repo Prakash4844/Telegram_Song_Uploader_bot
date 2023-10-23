@@ -8,7 +8,6 @@ from telegram import Update
 # noinspection PyPackageRequirements
 from telegram.ext import filters, ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler
 
-
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -127,6 +126,11 @@ async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                    text="No, more songs to upload.")
 
 
+async def download(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(chat_id=update.effective_chat.id,
+                                   text="Sorry, I can't download songs yet.")
+
+
 if __name__ == '__main__':
     application = ApplicationBuilder().connect_timeout(1000).read_timeout(1000).write_timeout(1000).token(
         API_TOKEN).build()
@@ -134,11 +138,13 @@ if __name__ == '__main__':
     # Define the handlers
     start_handler = CommandHandler('start', start)
     upload_handler = CommandHandler('upload', upload)
+    download_handler = CommandHandler('download', download)
     unknown_handler = MessageHandler(filters.COMMAND, unknown)
 
     # Add handlers to the application
     application.add_handler(start_handler)
     application.add_handler(upload_handler)
+    application.add_handler(download_handler)
     application.add_handler(unknown_handler)
 
     application.run_polling()
