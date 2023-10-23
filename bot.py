@@ -1,19 +1,33 @@
-import logging
 import os
+import sys
+import logging
 import sqlite3
 import tinytag
+# noinspection PyPackageRequirements
 from telegram import Update
+# noinspection PyPackageRequirements
 from telegram.ext import filters, ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler
 
-APITOKENPATH = "API_token"
 
-with open(APITOKENPATH, 'r') as f:
-    API_TOKEN = f.read().strip()
-
+# Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+
+# Path to the API token file
+APITOKENPATH = "API_token"
+
+try:
+    with open(APITOKENPATH, 'r') as f:
+        API_TOKEN = f.read().strip()
+except FileNotFoundError:
+    logging.debug(f"API token file not found at {APITOKENPATH}, trying environment variable")
+    API_TOKEN = os.environ.get("API_TOKEN")
+
+if API_TOKEN is None:
+    logging.error("Please set API_TOKEN environment variable or create a file called API_token with the token in it")
+    sys.exit(1)
 
 # Replace with your database name
 DB_NAME = 'SongsDB.sqlite'
@@ -32,7 +46,7 @@ def sec_to_hour(seconds):
     seconds %= 3600
     minutes = seconds // 60
     seconds %= 60
-    return "%d:%02d:%02d" % (hour, minutes, seconds)
+    return f'{hour}:{minutes:02d}:{seconds:02d}'
 
 
 # Function to convert bytes to MB
