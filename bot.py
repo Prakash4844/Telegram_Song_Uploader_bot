@@ -40,12 +40,16 @@ c = conn.cursor()
 
 
 def sec_to_hour(seconds):
+    try:
+        seconds = float(seconds)
+    except (ValueError, TypeError):
+        seconds = 0
     seconds = seconds % (24 * 3600)
     hour = seconds // 3600
     seconds %= 3600
     minutes = seconds // 60
     seconds %= 60
-    return f'{hour}:{minutes:02d}:{seconds:02d}'
+    return "%d:%02d:%02d" % (hour, minutes, seconds)
 
 
 # Function to convert bytes to MB
@@ -80,16 +84,32 @@ async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Get the full path of the song file
         song_path = os.path.join(SONGS_DIR, song_file)
 
-        # Check if the file is a valid mp3 file
-        if song_path.endswith('.mp3'):
+        # Check if the file is a valid audio file
+        if song_path.endswith('.mp3') or song_path.endswith('.m4a') or song_path.endswith('.flac'):
 
             # Get the song metadata
             audio = tinytag.TinyTag.get(song_path)
-            title = audio.title
-            artist = audio.artist
+
+            if audio.duration is None:
+                duration = 0
+            else:
+                duration = audio.duration
+            if audio.title is None:
+                title = "Unknown"
+            else:
+                title = audio.title
+            if audio.artist is None:
+                artist = "Unknown"
+            else:
+                artist = audio.artist
             duration = sec_to_hour(audio.duration)
+            if audio.filesize is None:
+                size = 0
             size = byte_to_megabytes(audio.filesize)
-            bitrate = int(audio.bitrate)
+            if audio.bitrate is None:
+                bitrate = 0
+            else:
+                bitrate = int(audio.bitrate)
 
             # Check if the song metadata exists in the database
             # Check if a record with the same title, artist, and duration already exists in the table
